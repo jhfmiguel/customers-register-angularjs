@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="costumerRegister">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Costumer Register | AngularJS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="bootstrap-3.4.1/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="angular-1.7.7/angular.js"></script>
+    <script>
+        angular.module("costumerRegister", []);
+        angular.module("costumerRegister").controller("costumerRegisterCtrl", function($scope)
+        {
+            $scope.app = "Costumer Register";
+            $scope.costumer = [
+                {id: "0001",  name: "John"},
+                {id: "0002",  name: "Marta"},
+                {id: "0003",  name: "Rex"}
+            ];
+        });
+    </script>
+</head>
+<body ng-controller="costumerRegisterCtrl">
+    <div class="jumbotron">
+        <h3>{{app}}</h3>
+        <table class="table table-striped">
+            <tr>
+                <td><b>Id</b></td>
+                <td><b>Name</b></td>
+            </tr>
+            <tr ng-repeat="value in costumer">
+                <td>{{value.id}}</td>
+                <td>{{value.name}}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
