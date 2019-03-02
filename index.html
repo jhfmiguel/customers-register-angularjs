@@ -18,6 +18,16 @@
                 {id: "0002",  name: "Marta"},
                 {id: "0003",  name: "Rex"}
             ];
+            $scope.costumerType = [
+                {id: "0001", type: "Physical Person"},
+                {id: "0002", type: "Legal Person"},
+                {id: "0003", type: "Partner"}
+            ];
+            $scope.addCostumer = function(costum)
+            {
+                $scope.costumer.push(angular.copy(costum));
+                delete $scope.costum;
+            }
         });
     </script>
 </head>
@@ -34,6 +44,13 @@
                 <td>{{value.name}}</td>
             </tr>
         </table>
+        <hr>
+         <input class="form-control" type="text" ng-model="costum.id" placeholder="Id">
+         <input class="form-control" type="text" ng-model="costum.name" placeholder="Name">
+         <select class="form-control" ng-model="costumer.costumerType" ng-options="costumType.type for costumType in costumerType">
+            <option value="">Constumer Type</option>    
+         </select>
+         <button class="btn btn-info btn-block" ng-click="addCostumer(costum)">Save</button>
     </div>
 </body>
 </html>
