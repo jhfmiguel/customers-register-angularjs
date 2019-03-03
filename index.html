@@ -1,56 +1,97 @@
 <!DOCTYPE html>
-<html ng-app="costumerRegister">
+<html ng-app="customersRegister">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Costumer Register | AngularJS</title>
+    <title>Customers Register | AngularJS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="bootstrap-3.4.1/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="angular-1.7.7/angular.js"></script>
+    <script src="angular-1.7.7/angular-locale_pt-br.js"></script>
+    <script src="directives/dir-alert.js"></script>
     <script>
-        angular.module("costumerRegister", []);
-        angular.module("costumerRegister").controller("costumerRegisterCtrl", function($scope)
+        angular.module("customersRegister", []);
+        angular.module("customersRegister").controller("customersRegisterCtrl", function($scope, $http)
         {
-            $scope.app = "Costumer Register";
-            $scope.costumer = [
-                {id: "0001",  name: "John"},
-                {id: "0002",  name: "Marta"},
-                {id: "0003",  name: "Rex"}
+            $scope.app = "Customers Register";
+            
+            $scope.customers = [
+                {id: "0001",  name: "John",     date: new Date(), value: "100"},
+                {id: "0002",  name: "Marta",    date: new Date(), value: "200"},
+                {id: "0003",  name: "Rex",      date: new Date(), value: "50"}
             ];
-            $scope.costumerType = [
-                {id: "0001", type: "Physical Person"},
-                {id: "0002", type: "Legal Person"},
-                {id: "0003", type: "Partner"}
+            
+            $scope.customersType = [
+                {id: "0001", type: "Physical Person",   origin: "National"},
+                {id: "0002", type: "Legal Person",      origin: "National"},
+                {id: "0003", type: "Partner",           origin: "National"},
+                {id: "0004", type: "Importer",          origin: "International"},
+                {id: "0005", type: "Exporter",          origin: "International"}
             ];
-            $scope.addCostumer = function(costum)
+            
+            $scope.addCustomer = function(customer)
             {
-                $scope.costumer.push(angular.copy(costum));
-                delete $scope.costum;
-            }
+                $scope.customers.push(angular.copy(customer));
+                delete $scope.customer;
+            };
+            
+            $scope.delCustomer = function(customers)
+            {
+                $scope.customers = customers.filter(function(customer){
+                    if (!customer.selected) return customer;
+                });
+            };
+
+            $scope.selectCustomer = function(customers)
+            {
+                return customers.some(function(customer) 
+                {
+                   return customer.selected; 
+                });
+            };
+    
+            
+            $scope.class1 = "selected";
+            $scope.class2 = "bold";
         });
     </script>
 </head>
-<body ng-controller="costumerRegisterCtrl">
+<body ng-controller="customersRegisterCtrl">
     <div class="jumbotron">
         <h3>{{app}}</h3>
-        <table class="table table-striped">
+        <div dir-alert></div>
+        <input type="text" class="form-control" ng-model="Search" placeholder="Search">
+        <table ng-show="customers.length > 0" class="table">
             <tr>
+                <td> </td>
                 <td><b>Id</b></td>
                 <td><b>Name</b></td>
+                <td><b>Type</b></td>
+                <td><b>Date</b></td>
+                <td><b>Value</b></td>
             </tr>
-            <tr ng-repeat="value in costumer">
-                <td>{{value.id}}</td>
-                <td>{{value.name}}</td>
+            
+            <tr ng-class="{'selected bold': customer.selected}" ng-repeat="customer in customers | filter:Search | orderBy:'name'">
+                <td><input type="checkbox" ng-model="customer.selected"></td>
+                <td>{{customer.id}}</td>
+                <td>{{customer.name | uppercase}}</td>
+                <td>{{customer.customersType.type}}</td>
+                <td>{{customer.date | date: 'dd/MM/yyyy'}}</td>
+                <td>{{customer.value | currency}}</td>
             </tr>
         </table>
         <hr>
-         <input class="form-control" type="text" ng-model="costum.id" placeholder="Id">
-         <input class="form-control" type="text" ng-model="costum.name" placeholder="Name">
-         <select class="form-control" ng-model="costumer.costumerType" ng-options="costumType.type for costumType in costumerType">
-            <option value="">Constumer Type</option>    
-         </select>
-         <button class="btn btn-info btn-block" ng-click="addCostumer(costum)">Save</button>
+        <form name="customerForm">
+            <input class="form-control" type="text" ng-model="customer.id"      placeholder="Id"    ng-required="true">
+            <input class="form-control" type="text" ng-model="customer.name"    placeholder="Name"  ng-required="true">
+            <select class="form-control" ng-model="customer.customersType" ng-options="customerType.type group by customerType.origin for customerType in customersType" ng-required="true">
+                <option value="">Customer Type</option>    
+            </select>
+        </form>    
+         <button class="btn btn-info btn-block" ng-click="addCustomer(customer)" ng-disabled="customerForm.$invalid">Save</button>
+         <button class="btn btn-danger btn-block" ng-click="delCustomer(customers)" ng-if="selectCustomer(customers)">Delete</button>
     </div>
+    <div ng-include="'footer.html'"></div>
 </body>
 </html>

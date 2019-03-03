@@ -1,5 +1,5 @@
 .jumbotron{
-    width: 400px;
+    width: 600px;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -8,10 +8,51 @@
     padding-right: 20px;
 }
 
+.jumbotron h3{
+    margin-top: 0;
+    padding-bottom:10px;
+    color: #FFF;
+    background-color: #acacac;
+    border-radius: 5px;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+}
+
 .table{
     margin-top: 15px;
 }
 
+.selected{
+    background-color: #BBC9FC;
+}
+
+.bold {
+    font-weight: bold;
+}
+
 .form-control{
     margin-bottom: 10px;
+}
+
+.footer{
+    text-align:center;
+}
+
+.dir-alert{
+    background-color: #F2DEDE;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom:20px;
+}
+
+.dir-alert-title{
+    color: #AF4341;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.dir-alert-message{
+    color:#AF4341;
 }
